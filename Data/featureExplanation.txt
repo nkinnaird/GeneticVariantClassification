@@ -1,0 +1,46 @@
+CHROM - Chromosome the variant is located on
+POS - Position on the chromosome the variant is located on
+REF - Reference allele (ACGT)
+ALT - Alternate allele (ACGT)
+AF_ESP - Allele frequencies from GO-ESP (genome sequencing project, United States population)
+AF_EXAC - Allele frequencies from ExAC (genome sequencing project, worldwide)
+AF_TGP - Allele frequencies from the 1000 genomes project
+CLNDISDB - Tag-value pairs of disease database name and identifier, e.g. OMIM:NNNNNN
+CLNDISDBINCL - For included Variant: Tag-value pairs of disease database name and identifier, e.g. OMIM:NNNNNN (all NaN)
+CLNDN - ClinVar's preferred disease name for the concept specified by disease identifiers in CLNDISDB
+CLNDNINCL - For included Variant : ClinVar's preferred disease name for the concept specified by disease identifiers in CLNDISDB (all NaN)
+CLNHGVS - Top-level (primary assembly, alt, or patch) HGVS expression. (all unique)
+CLNSIGINCL - Clinical significance for a haplotype or genotype that includes this variant. Reported as pairs of VariationID:clinical significance.
+CLNVC - Variant Type
+CLNVI - the variant's clinical sources reported as tag-value pairs of database and variant identifier (lots of NaNs)
+MC - comma separated list of molecular consequence in the form of Sequence Ontology ID|molecular_consequence
+ORIGIN - Allele origin. One or more of the following values may be added: 0 - unknown; 1 - germline; 2 - somatic; 4 - inherited; 8 - paternal; 16 - maternal; 32 - de-novo; 64 - biparental; 128 - uniparental; 256 - not-tested; 512 - tested-inconclusive; 1073741824 - other
+SSR - Variant Suspect Reason Codes. One or more of the following values may be added: 0 - unspecified, 1 - Paralog, 2 - byEST, 4 - oldAlign, 8 - Para_EST, 16 - 1kg_failed, 1024 - other
+CLASS - The binary representation of the target class. 0 represents no conflicting submissions and 1 represents conflicting submissions.
+Allele - the variant allele used to calculate the consequence
+Consequence - Type of consequence: https://useast.ensembl.org/info/genome/variation/prediction/predicted_data.html#consequences
+IMPACT - the impact modifier for the consequence type
+SYMBOL - Gene Name
+Feature_type - type of feature. Currently one of Transcript, RegulatoryFeature, MotifFeature.
+Feature - Ensembl stable ID of feature
+BIOTYPE - Biotype of transcript or regulatory feature
+EXON - the exon number (out of total number)
+INTRON - the intron number (out of total number)
+cDNA_position - relative position of base pair in cDNA sequence
+CDS_position - relative position of base pair in coding sequence
+Protein_position - relative position of amino acid in protein
+Amino_acids - only given if the variant affects the protein-coding sequence
+Codons - the alternative codons with the variant base in upper case
+DISTANCE - Shortest distance from variant to transcript
+STRAND - defined as + (forward) or - (reverse)
+BAM_EDIT - Indicates success or failure of edit using BAM file
+SIFT - the SIFT prediction and/or score, with both given as prediction(score)
+PolyPhen - the PolyPhen prediction and/or score
+MOTIF_NAME - the source and identifier of a transcription factor binding profile aligned at this position
+MOTIF_POS - The relative position of the variation in the aligned TFBP
+HIGH_INF_POS - a flag indicating if the variant falls in a high information position of a transcription factor binding profile (TFBP)
+MOTIF_SCORE_CHANGE - The difference in motif score of the reference and variant sequences for the TFBP
+LoFtool - Loss of Function tolerance score for loss of function variants: https://github.com/konradjk/loftee
+CADD_PHRED - Phred-scaled CADD score
+CADD_RAW - Score of the deleteriousness of variants: http://cadd.gs.washington.edu/
+BLOSUM62 - See: http://rosalind.info/glossary/blosum62/
