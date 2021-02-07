@@ -349,4 +349,5 @@ class FeatureImportance:
         fig.update_yaxes(tickfont=dict(family=yaxes_tickfont_family, 
                                        size=yaxes_tickfont_size),
                          title='')
+        fig.update_xaxes(title='Relative Importance')
         fig.show()

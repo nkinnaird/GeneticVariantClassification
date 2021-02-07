@@ -38,8 +38,19 @@ def makeMetricPlots(pipeline, inputX, inputY, model_name):
     plt.legend(loc='lower left')
     plt.xlabel('Threshold (above this probability, label as conflicting)');
     plt.title('Precision and Recall Curves');
+    plt.show()
     
     
-    # plot precision curve vs recall curve
-    prec_vs_rec = metrics.plot_precision_recall_curve(pipeline, inputX, inputY, name=model_name)
+    # plot precision curve vs recall curve (I think for threshold of 0.5 but I'm not entirely sure)
+#     prec_vs_rec = metrics.plot_precision_recall_curve(pipeline, inputX, inputY, name=model_name)
+    
+
+# from https://towardsdatascience.com/fine-tuning-a-classifier-in-scikit-learn-66e048c21e65
+def adjusted_classes(y_probs, threshold):
+    """
+    This function adjusts class predictions based on the prediction threshold (t).
+    Will only work for binary classification problems.
+    """
+    return [1 if y_prob > threshold else 0 for y_prob in y_probs]    
+    
 
