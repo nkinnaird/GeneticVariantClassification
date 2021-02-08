@@ -1,6 +1,7 @@
 from sklearn import metrics
 import matplotlib.pyplot as plt
 import seaborn as sns
+import numpy as np
 
 plt.rcParams['figure.figsize'] = (9, 6)
 sns.set(context='notebook', style='whitegrid', font_scale=1.2)
@@ -14,11 +15,12 @@ def printMetricsAndConfMat(y_train, y_pred, modelAbrev):
     plt.figure()
     
     sns.heatmap(conf_mat, cmap=plt.cm.Blues, annot=True, square=True, fmt='d',
-               xticklabels=['non-conflicting', 'conflicting'],
-               yticklabels=['non-conflicting', 'conflicting']);
+               xticklabels=['non-conflicting', 'conflicting']);
     
-    plt.xlabel('prediction')
-    plt.ylabel('actual')
+    plt.yticks(np.array([0.25, 1.35]),('non-conflicting','conflicting'))
+
+    plt.xlabel('Predicted Target')
+    plt.ylabel('Actual Target')
     plt.title(modelAbrev + " Conf Mat");
     plt.show();
     
