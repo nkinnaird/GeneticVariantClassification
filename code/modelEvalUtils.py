@@ -26,11 +26,11 @@ def printMetricsAndConfMat(y_train, y_pred, modelAbrev):
     
     
     
-def makeMetricPlots(pipeline, inputX, inputY, model_name, testDataBool=False):
+def makeMetricPlots(pipeline, inputX, inputY, model_name, testData=False):
 
     # plot ROC curve
 #     roc = metrics.plot_roc_curve(pipeline, inputX, inputY, name=model_name)
-
+    # replaced with the code below
 
     fpr, tpr, thresholds = metrics.roc_curve(inputY, pipeline.predict_proba(inputX)[:,1])
     
@@ -41,7 +41,7 @@ def makeMetricPlots(pipeline, inputX, inputY, model_name, testDataBool=False):
     plt.plot([0,1], [0,1], linestyle='--', label='No Skill')
     plt.plot(fpr, tpr, label='{0} AUC : {1:.3f}'.format(model_name, auc_score))
     
-    if not testDataBool:
+    if not testData:
         # calculate the g-mean for each threshold
         gmeans = np.sqrt(tpr * (1-fpr))
         # locate the index of the largest g-mean
@@ -62,7 +62,7 @@ def makeMetricPlots(pipeline, inputX, inputY, model_name, testDataBool=False):
     plt.plot(threshold_curve, precision_curve[1:],label='precision')
     plt.plot(threshold_curve, recall_curve[1:], label='recall')
     
-    if not testDataBool:
+    if not testData:
 #         plt.scatter(thresholds[ix], precision_curve[ix+1], marker='o', color='black', label='Best')
         plt.axvline(x=thresholds[ix], color='k', linestyle='--', label='chosen threshold')
     
@@ -75,6 +75,9 @@ def makeMetricPlots(pipeline, inputX, inputY, model_name, testDataBool=False):
     
     # plot precision curve vs recall curve (I think for threshold of 0.5 but I'm not entirely sure)
 #     prec_vs_rec = metrics.plot_precision_recall_curve(pipeline, inputX, inputY, name=model_name)
+    
+    
+    
     
 
 # from https://towardsdatascience.com/fine-tuning-a-classifier-in-scikit-learn-66e048c21e65
