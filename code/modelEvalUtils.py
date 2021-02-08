@@ -21,15 +21,39 @@ def printMetricsAndConfMat(y_train, y_pred, modelAbrev):
 
     plt.xlabel('Predicted Target')
     plt.ylabel('Actual Target')
-    plt.title(modelAbrev + " Conf Mat");
+    plt.title(modelAbrev + " Confusion Matrix");
     plt.show();
     
     
     
-def makeMetricPlots(pipeline, inputX, inputY, model_name):
+def makeMetricPlots(pipeline, inputX, inputY, model_name, testDataBool=False):
 
     # plot ROC curve
-    roc = metrics.plot_roc_curve(pipeline, inputX, inputY, name=model_name)
+#     roc = metrics.plot_roc_curve(pipeline, inputX, inputY, name=model_name)
+
+
+    fpr, tpr, thresholds = metrics.roc_curve(inputY, pipeline.predict_proba(inputX)[:,1])
+    
+#     auc_score = metrics.roc_auc_score(inputY, pipeline.predict_proba(inputX)[:,1])
+    auc_score = metrics.auc(fpr, tpr)
+    
+    # plot the roc curve for the model
+    plt.plot([0,1], [0,1], linestyle='--', label='No Skill')
+    plt.plot(fpr, tpr, label='{0} AUC : {1:.3f}'.format(model_name, auc_score))
+    
+    if not testDataBool:
+        # calculate the g-mean for each threshold
+        gmeans = np.sqrt(tpr * (1-fpr))
+        # locate the index of the largest g-mean
+        ix = np.argmax(gmeans)
+        print('Best Threshold=%f, G-Mean=%.3f' % (thresholds[ix], gmeans[ix]))
+        plt.scatter(fpr[ix], tpr[ix], marker='o', color='black', label='Best')
+    
+    # axis labels
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.legend()
+
 
     # plot precision and recall curves against threshold
     precision_curve, recall_curve, threshold_curve = metrics.precision_recall_curve(inputY, pipeline.predict_proba(inputX)[:,1] )
@@ -37,6 +61,12 @@ def makeMetricPlots(pipeline, inputX, inputY, model_name):
     plt.figure(dpi=80)
     plt.plot(threshold_curve, precision_curve[1:],label='precision')
     plt.plot(threshold_curve, recall_curve[1:], label='recall')
+    
+    if not testDataBool:
+#         plt.scatter(thresholds[ix], precision_curve[ix+1], marker='o', color='black', label='Best')
+        plt.axvline(x=thresholds[ix], color='k', linestyle='--', label='chosen threshold')
+    
+    
     plt.legend(loc='lower left')
     plt.xlabel('Threshold (above this probability, label as conflicting)');
     plt.title('Precision and Recall Curves');
