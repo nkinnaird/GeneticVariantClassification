@@ -21,11 +21,15 @@ def printMetricsAndConfMat(y_train, y_pred, modelAbrev):
 
     plt.xlabel('Predicted Target')
     plt.ylabel('Actual Target')
-    plt.title(modelAbrev + " Confusion Matrix");
-    plt.show();
+    plt.title(modelAbrev + " Confusion Matrix")
     
+    filename = "Images/ConfMat_{}.png".format(str(modelAbrev).replace(" ", "_"))
+    print('saving image:', filename)
+    plt.savefig(filename)
     
+    plt.show()
     
+
 def makeMetricPlots(pipeline, inputX, inputY, model_name, inputThreshold, testData=False):
     
     # plot ROC curve
@@ -64,10 +68,18 @@ def makeMetricPlots(pipeline, inputX, inputY, model_name, inputThreshold, testDa
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
     plt.title('ROC Curve for Train Data');
-    if testData: plt.title('ROC Curve for Test Data');
+    if testData: plt.title('ROC Curve for Test Data')
     plt.legend()
-    plt.show()
+    
+    if(testData):
+        filename = "Images/ROC_Test_{}.png".format(model_name)
+    else:
+        filename = "Images/ROC_Train_{}.png".format(model_name)
+        
+    print('saving image:', filename)    
+    plt.savefig(filename)
 
+    plt.show()
 
     # plot precision and recall curves against threshold (but only for non-test data)
     if not testData:
@@ -88,9 +100,13 @@ def makeMetricPlots(pipeline, inputX, inputY, model_name, inputThreshold, testDa
     
         plt.legend(loc='lower left')
         plt.xlabel('Threshold (above this probability, label as conflicting)');
-        plt.title('Precision and Recall Curves for Train Data');
-        plt.show()
+        plt.title('{} Precision and Recall Curves for Train Data'.format(model_name));
     
+        filename = "Images/PrecisionRecall_Test_{}.png".format(model_name)
+        print('saving image:', filename)
+        plt.savefig(filename)
+    
+        plt.show()
     
     # plot precision curve vs recall curve (I think for threshold of 0.5 but I'm not entirely sure) 
     # replaced with the above code 
@@ -128,4 +144,9 @@ def makeCombinedROC(tuples, model_names):
     plt.ylabel('True Positive Rate')
     plt.title('ROC Curves for Test Data');
     plt.legend()
+    
+    filename = "Images/ROC_Comparison.png"
+    print('saving image:', filename)
+    plt.savefig(filename)
+
     plt.show()

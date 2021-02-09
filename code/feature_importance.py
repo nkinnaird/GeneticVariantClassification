@@ -254,7 +254,7 @@ class FeatureImportance:
              display_imp_values=True, display_imp_value_decimals=1,
              height_per_feature=25, orientation='h', width=750, height=None, 
              str_pad_width=15, yaxes_tickfont_family='Courier New', 
-             yaxes_tickfont_size=15):
+             yaxes_tickfont_size=15, modelName='', fileName=''):
         """
 
         Plot the Feature Names & Importances 
@@ -311,7 +311,7 @@ class FeatureImportance:
         if len(all_importances) < top_n_features:
             title_text = 'All Feature Importances'
         else:
-            title_text = f'Top {top_n_features} (of {n_all_importances}) Feature Importances'       
+            title_text = f'{modelName} Top {top_n_features} (of {n_all_importances}) Feature Importances'       
         
         if rank_features:
             padded_features = \
@@ -350,4 +350,8 @@ class FeatureImportance:
                                        size=yaxes_tickfont_size),
                          title='')
         fig.update_xaxes(title='Relative Importance')
+        
+        if(fileName):
+            fig.write_image(fileName)
+        
         fig.show()
