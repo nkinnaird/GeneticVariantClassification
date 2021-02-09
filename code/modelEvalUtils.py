@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 
-plt.rcParams['figure.figsize'] = (9, 6)
+plt.rcParams['figure.figsize'] = (8, 8)
 sns.set(context='notebook', style='whitegrid', font_scale=1.2)
 
 def printMetricsAndConfMat(y_train, y_pred, modelAbrev):
@@ -36,11 +36,12 @@ def makeMetricPlots(pipeline, inputX, inputY, model_name, inputThreshold, testDa
     
     auc_score = metrics.auc(fpr, tpr)
     
-    plt.figure(dpi=80)
+    fig = plt.figure(dpi=80)
+    ax = fig.add_subplot(111)
 
     # plot the roc curve for the model
     plt.plot([0,1], [0,1], linestyle='--', label='No Skill')
-    plt.plot(fpr, tpr, label='{0} AUC : {1:.2f}'.format(model_name, auc_score))
+    plt.plot(fpr, tpr, label='{0} (AUC : {1:.2f})'.format(model_name, auc_score))
     
     best_roc_threshold = 0.5 # set this value so it doesn't complain when I run on the test data, for which the best threshold will have already been set
     if not testData:
@@ -54,6 +55,10 @@ def makeMetricPlots(pipeline, inputX, inputY, model_name, inputThreshold, testDa
         
         iClosest = (np.abs(thresholds - inputThreshold)).argmin()
         plt.scatter(fpr[iClosest], tpr[iClosest], marker='o', color='blue', label='Chosen Threshold: {0:.2f}'.format(inputThreshold))
+    
+    plt.xlim(-0.05, 1.05)
+    plt.ylim(-0.05, 1.05)
+    ax.set_aspect('equal', adjustable='box')
     
     # axis labels
     plt.xlabel('False Positive Rate')
@@ -69,12 +74,18 @@ def makeMetricPlots(pipeline, inputX, inputY, model_name, inputThreshold, testDa
 
         precision_curve, recall_curve, threshold_curve = metrics.precision_recall_curve(inputY, pipeline.predict_proba(inputX)[:,1] )
 
-        plt.figure(dpi=80)
+        curve_fig = plt.figure(dpi=80)
+        curve_ax = curve_fig.add_subplot(111)
+
         plt.plot(threshold_curve, precision_curve[1:],label='precision')
         plt.plot(threshold_curve, recall_curve[1:], label='recall')
 
         plt.axvline(x=inputThreshold, color='k', linestyle='--', label='chosen threshold')
 
+        plt.xlim(-0.05, 1.05)
+        plt.ylim(-0.05, 1.05)
+        curve_ax.set_aspect(0.75)
+    
         plt.legend(loc='lower left')
         plt.xlabel('Threshold (above this probability, label as conflicting)');
         plt.title('Precision and Recall Curves for Train Data');
@@ -99,15 +110,18 @@ def adjusted_classes(y_probs, threshold):
 
 def makeCombinedROC(tuples, model_names):
     
-    plt.figure(dpi=80)
+    fig = plt.figure(dpi=80)
+    ax = fig.add_subplot(111)
+    
     plt.plot([0,1], [0,1], linestyle='--', label='No Skill')
 
-    
     for i, data in enumerate(tuples):
-        
         auc_score = metrics.auc(data[0], data[1])
-        plt.plot(data[0], data[1], label='{0} AUC : {1:.2f}'.format(model_names[i], auc_score))
+        plt.plot(data[0], data[1], label='{0} (AUC : {1:.2f})'.format(model_names[i], auc_score))
     
+    plt.xlim(-0.05, 1.05)
+    plt.ylim(-0.05, 1.05)
+    ax.set_aspect('equal', adjustable='box')    
     
     # axis labels
     plt.xlabel('False Positive Rate')
